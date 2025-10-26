@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BN LAST KING</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --primary-color: #00E5FF; /* Neon Cyan */
+      --secondary-color: #FF2E63; /* Neon Pink */
+      --accent-color: #39FF14; /* Neon Green */
+      --bg-gradient-start: #0A0E2B; /* Deep Space Blue */
+      --bg-gradient-mid: #1C2526; /* Dark Teal */
+      --bg-gradient-end: #0A0E2B; /* Deep Space Blue */
+      --card-bg: rgba(20, 30, 48, 0.9); /* Semi-transparent dark */
+      --button-bg-start: #00E5FF; /* Neon Cyan */
+      --button-bg-end: #FF2E63; /* Neon Pink */
+      --glow-color: rgba(0, 229, 255, 0.5); /* Neon Cyan Glow */
+    }
+
+    @keyframes neonGlow {
+      0%, 100% { box-shadow: 0 0 10px var(--glow-color), 0 0 20px var(--glow-color), 0 0 30px var(--glow-color); }
+      50% { box-shadow: 0 0 5px var(--glow-color), 0 0 10px var(--glow-color), 0 0 15px var(--glow-color); }
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    @keyframes rippleEffect {
+      0% { transform: scale(0); opacity: 0.5; }
+      100% { transform: scale(4); opacity: 0; }
+    }
+
+    body {
+      background: linear-gradient(45deg, var(--bg-gradient-start), var(--bg-gradient-mid), var(--bg-gradient-end));
+      background-size: 400% 400%;
+      animation: gradientFlow 15s ease infinite;
+      font-family: 'Roboto', sans-serif;
+      color: #E5E7EB;
+      min-h-screen;
+      padding: 1.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .container {
+      max-width: 28rem;
+      margin: 0 auto;
+      padding: 0.75rem;
+    }
+
+    .wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .wrapper svg {
+      width: 100%;
+      height: auto;
+      max-height: 70px;
+      filter: drop-shadow(0 0 10px var(--glow-color));
+    }
+
+    .wrapper svg text {
+      font-size: 11px;
+      font-family: 'Orbitron', sans-serif;
+      fill: var(--primary-color); /* Neon Cyan */
+      stroke: var(--secondary-color); /* Neon Pink */
+      stroke-width: 0.25;
+      text-shadow: 0 0 12px var(--glow-color);
+      animation: neonGlow 1.5s ease-in-out infinite;
+    }
+
+    .toast {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 80%;
+      max-height: 100px;
+      background: rgba(20, 30, 48, 0.95);
+      color: #FFFFFF;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 0.625rem;
+      opacity: 0;
+      transition: all 0.5s ease;
+      z-index: 1000;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      padding: 0.75rem 1.5rem;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+    }
+
+    .toast.success { border-color: var(--accent-color); color: var(--accent-color); }
+    .toast.error { border-color: var(--secondary-color); color: var(--secondary-color); }
+    .toast.warning { border-color: #FFD700; color: #FFD700; }
+    .toast.info { border-color: var(--primary-color); color: var(--primary-color); }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 0.875rem;
+      border: 1px solid var(--primary-color);
+      padding: 1.25rem;
+      margin-bottom: 1.75rem;
+      transition: all 0.3s ease;
+      animation: bounce 2s ease infinite;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 18px var(--glow-color);
+    }
+
+    .gradient-button {
+      background: linear-gradient(90deg, var(--button-bg-start), var(--button-bg-end));
+      border: none;
+      border-radius: 0.625rem;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #FFFFFF;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      pointer-events: auto;
+    }
+
+    .gradient-button:hover {
+      background: linear-gradient(90deg, var(--button-bg-end), var(--button-bg-start));
+      box-shadow: 0 0 12px var(--glow-color);
+      transform: translateY(-2px);
+    }
+
+    .gradient-button.full-width {
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 0.8rem;
+    }
+
+    .gradient-button::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
+
+    .gradient-button.ripple-effect::after {
+      width: 200%;
+      height: 200%;
+      opacity: 0;
+      animation: rippleEffect 0.6s ease-out;
+    }
+
+    .history-item {
+      background: var(--card-bg);
+      border-radius: 0.625rem;
+      padding: 0.875rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px var(--glow-color);
+    }
+
+    .history-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 14px var(--glow-color);
+    }
+
+    .no-results {
+      border: 2px solid var(--secondary-color);
+      text-align: center;
+      color: var(--secondary-color);
+      padding: 0.875rem;
+      border-radius: 0.625rem;
+      font-size: 0.8rem;
+    }
+
+    .panel {
+      background: rgba(10, 14, 43, 0.8);
+      border-radius: 0.625rem;
+      padding: 0.875rem;
+      box-shadow: 0 0 10px var(--glow-color);
+      transition: all 0.3s ease;
+    }
+
+    .online-status-panel {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .online-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+    }
+
+    .online-status.online { color: var(--accent-color); }
+    .online-status.offline { color: var(--secondary-color); }
+
+    .online-status .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      animation: neonGlow 1.5s ease-in-out infinite;
+    }
+
+    .online-status.offline .dot {
+      background: var(--secondary-color);
+      animation: none;
+    }
+
+    @media (max-width: 640px) {
+      .container { padding: 0.5rem; }
+      .wrapper svg text { font-size: 9px; }
+      .card { padding: 1rem; }
+      .toast { font-size: 0.9rem; padding: 0.5rem 1rem; max-height: 80px; }
+      .gradient-button { font-size: 0.7rem; padding: 0.4rem 0.8rem; }
+      .gradient-button.full-width { font-size: 0.7rem; padding: 0.4rem; }
+      .history-item { padding: 0.75rem; }
+      .panel { padding: 0.75rem; }
+    }
+  </style>
+</head>
+<body class="min-h-screen p-3">
+  <div class="container space-y-7">
+    <div class="wrapper">
+      <svg role="img" viewBox="0 0 10 25" preserveAspectRatio="xMidYMid meet">
+        <text x="50%" y="50%" dy=".1em" text-anchor="middle" font-size="80">
+          777 BIG WIN GAME 
+        </text>
+      </svg>
+    </div>
+
+    <div class="card">
+      <div class="flex items-center justify-between mb-3.5">
+        <h2 class="text-lg font-bold text-cyan-300 flex items-center font-orbitron">
+          <i class="fa-solid fa-brain mr-1.5"></i> Current Predictor
+        </h2>
+        <button onclick="refreshPrediction()" class="gradient-button font-semibold flex items-center">
+          <i class="fa-solid fa-sync-alt mr-1.5"></i> Refresh
+        </button>
+      </div>
+      <div class="panel text-center">
+        <div class="text-cyan-200 mb-2.5 text-sm">PERIOD: <span id="currentPeriodDisplay">-</span></div>
+        <div class="text-cyan-200 mb-2.5 text-sm">TIMER: <span id="timerDisplay">00:00</span></div>
+        <div id="currentPredictionDisplay" class="text-xl font-bold text-white mb-1.5">-</div>
+        <div class="text-white text-sm">CONFIDENCE: <span id="confidenceDisplay">0%</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="text-lg font-bold text-cyan-300 mb-3.5 font-orbitron">══✿ Analysis Dashboard ✿══</h2>
+      <div class="grid grid-cols-2 gap-3.5">
+        <div class="panel text-center">
+          <div class="text-cyan-200 text-sm">Total Wins</div>
+          <div id="totalWins" class="text-lg font-bold text-white">0</div>
+        </div>
+        <div class="panel text-center">
+          <div class="text-cyan-200 text-sm">Total Losses</div>
+          <div id="totalLosses" class="text-lg font-bold text-white">0</div>
+        </div>
+        <div class="panel text-center">
+          <div class="text-cyan-200 text-sm">CONFIDENCE</div>
+          <div id="overallConfidenceDisplay" class="text-white">0%</div>
+        </div>
+        <div class="panel text-center">
+          <div class="text-cyan-200 text-sm">Server Status</div>
+          <div id="serverStatus" class="text-lg font-bold text-white">Connected</div>
+        </div>
+        <div class="panel online-status-panel col-span-2">
+          <div class="text-cyan-200 text-sm">Internet Status    </div>
+          <div id="internetStatus" class="online-status online">
+            <span class="dot"></span>
+            <span id="internetSpeed">Checking...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="text-lg font-bold text-cyan-300 mb-3.5 font-orbitron">━━━━━━◆ History ◆━━━━━━</h2>
+      <div id="historyContainer" class="space-y-3.5"></div>
+      <div class="mt-3.5 text-center">
+        <button onclick="clearHistory()" class="gradient-button full-width text-sm">
+          <i class="fa-solid fa-trash mr-1.5"></i> Clear History
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="toast"></div>
+
+  <script>
+    // Configuration Constants
+    const API_URL = "https://api.bigwinqaz.com/api/webapi/GetNoaverageEmerdList";
+    const API_RETRY_INTERVAL = 5000;
+    const API_MAX_RETRIES = 3;
+    const UPDATE_INTERVAL = 5000;
+    const SMALL_NUMBERS = [0, 1, 2, 3, 4];
+    const BIG_NUMBERS = [5, 6, 7, 8, 9];
+    const MAX_HISTORY = 50;
+    const TOAST_COOLDOWN = 1500;
+    const CROSS_CHECK_ATTEMPTS = 8; // Number of cross-check attempts (2-8)
+
+    // DOM Elements Cache
+    const DOM = {
+      toastContainer: document.getElementById("toastContainer"),
+      currentPeriodDisplay: document.getElementById("currentPeriodDisplay"),
+      timerDisplay: document.getElementById("timerDisplay"),
+      currentPredictionDisplay: document.getElementById("currentPredictionDisplay"),
+      confidenceDisplay: document.getElementById("confidenceDisplay"),
+      totalWins: document.getElementById("totalWins"),
+      totalLosses: document.getElementById("totalLosses"),
+      overallConfidenceDisplay: document.getElementById("overallConfidenceDisplay"),
+      serverStatus: document.getElementById("serverStatus"),
+      historyContainer: document.getElementById("historyContainer"),
+      internetStatus: document.getElementById("internetStatus"),
+      internetSpeed: document.getElementById("internetSpeed")
+    };
+
+    // Validate DOM elements
+    Object.values(DOM).forEach((el, index) => {
+      if (!el) console.error(`DOM element at index ${index} is null. Check HTML IDs.`);
+    });
+
+    // State
+    let historyData = JSON.parse(localStorage.getItem('spyPredictorHistory')) || [];
+    let lastFetchedPeriod = null;
+    let lastPrediction = null;
+    let stats = JSON.parse(localStorage.getItem('spyPredictorStats')) || { wins: 0, losses: 0 };
+    let isFetching = false;
+    let lastPeriodUpdate = null;
+    let lastToastTime = 0;
+    let lastErrorPeriod = null; // Track the last period with an error
+    let lastUpdateTime = 0; // Track last update time to prevent rapid updates
+
+    // Add ripple effect to buttons
+    document.querySelectorAll('.gradient-button').forEach(button => {
+      button.addEventListener('click', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        this.style.setProperty('--ripple-x', `${x}px`);
+        this.style.setProperty('--ripple-y', `${y}px`);
+        this.classList.add('ripple-effect');
+        setTimeout(() => this.classList.remove('ripple-effect'), 600);
+      });
+    });
+
+    // Internet Speed Watch
+    const testInternetSpeed = async () => {
+      const startTime = performance.now();
+      const pingStartTime = performance.now();
+      const testUrl = 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'; // Lightweight file for speed test
+      const pingUrl = 'https://www.google.com/favicon.ico'; // Small resource for ping test
+
+      try {
+        // Ping test for latency
+        await fetch(pingUrl + '?t=' + Date.now(), { cache: 'no-store', mode: 'no-cors' });
+        const pingEndTime = performance.now();
+        const latency = (pingEndTime - pingStartTime).toFixed(0);
+
+        // Download speed test
+        const response = await fetch(testUrl + '?t=' + Date.now(), { cache: 'no-store' });
+        if (!response.ok) throw new Error('Fetch failed');
+        const blob = await response.blob();
+        const endTime = performance.now();
+        const duration = (endTime - startTime) / 1000;
+        const fileSize = blob.size / 1024 / 1024; // Size in MB
+        const speedMbps = duration > 0 ? ((fileSize * 8) / duration).toFixed(2) : 0;
+
+        // Update UI
+        const statusText = `Online | ${speedMbps} Mbps | ${latency} ms`;
+        DOM.internetStatus.className = `online-status ${speedMbps < 5 || latency > 100 ? 'offline' : 'online'}`;
+        DOM.internetSpeed.textContent = statusText;
+
+        showToast(`Network: ${speedMbps} Mbps, Latency: ${latency} ms`, 'success');
+      } catch (error) {
+        console.error('Speed test error:', error);
+        const statusText = 'Offline | 0 Mbps | N/A';
+        DOM.internetStatus.className = 'online-status offline';
+        DOM.internetSpeed.textContent = statusText;
+        showToast('Network offline.', 'error');
+      }
+    };
+
+    // Utility Functions
+    const showToast = (message, type = "info", duration = 1500) => {
+      const now = Date.now();
+      if (now - lastToastTime < TOAST_COOLDOWN) return;
+      lastToastTime = now;
+      if (!DOM.toastContainer) return console.error("Toast container not found");
+      DOM.toastContainer.textContent = message;
+      DOM.toastContainer.className = `toast show ${type}`;
+      setTimeout(() => DOM.toastContainer.className = "toast", duration);
+    };
+
+    const formatPeriodNumber = () => {
+      const now = new Date();
+      now.setTime(now.getTime() + (now.getTimezoneOffset() + 5.5 * 60) * 60 * 1000);
+      const yearMonthDay = now.toISOString().slice(0, 10).replace(/-/g, '');
+      const minutes = now.getHours() * 60 + now.getMinutes();
+      return yearMonthDay + "1000" + (10001 + minutes).toString();
+    };
+
+    const pad = (num) => num.toString().padStart(2, '0');
+
+    const formatTimer = () => {
+      const now = new Date();
+      now.setTime(now.getTime() + (now.getTimezoneOffset() + 5.5 * 60) * 60 * 1000);
+      const seconds = now.getSeconds();
+      const remainingSeconds = 60 - seconds;
+      return `${pad(0)} : ${pad(remainingSeconds)}`.replace(/(\d)(?=\d)/g, '$1 ');
+    };
+
+    const getBetLevel = (confidence) => {
+      if (confidence >= 95) return "4x";
+      if (confidence >= 80) return "3x";
+      if (confidence >= 60) return "2x";
+      return "1x";
+    };
+
+    // Enhanced Prediction Logic with Cross-Checking
+    const spyPredict = (history) => {
+      console.log("spyPredict called with history:", history);
+      if (history.length < 3) {
+        const prediction = Math.random() < 0.5 ? "SMALL" : "BIG";
+        return { prediction, confidence: 50, betLevel: "1x", decisionFactor: "Random (insufficient data)" };
+      }
+
+      // Perform multiple prediction attempts to find the best one
+      let bestPrediction = null;
+      let highestConfidence = -1;
+      for (let i = 0; i < CROSS_CHECK_ATTEMPTS; i++) {
+        const predictionResult = runSinglePrediction(history);
+        if (predictionResult.confidence > highestConfidence) {
+          highestConfidence = predictionResult.confidence;
+          bestPrediction = predictionResult;
+        }
+      }
+
+      console.log("Best Prediction:", bestPrediction);
+      return bestPrediction;
+    };
+
+    // Single Prediction Logic (Extracted for Cross-Checking)
+    const runSinglePrediction = (history) => {
+      const recentResults = history
+        .filter(h => h.result !== "-")
+        .slice(0, 10)
+        .map(h => Number(h.result))
+        .reverse();
+
+      // Calculate basic metrics
+      const bigCount = recentResults.filter(num => BIG_NUMBERS.includes(num)).length;
+      const totalCount = recentResults.length || 1;
+      const probBig = bigCount / totalCount;
+
+      // Analyze streaks
+      let streakType = null;
+      let streakLength = 1;
+      for (let i = 1; i < recentResults.length; i++) {
+        const currentType = BIG_NUMBERS.includes(recentResults[i]) ? "BIG" : "SMALL";
+        const prevType = BIG_NUMBERS.includes(recentResults[i - 1]) ? "BIG" : "SMALL";
+        if (currentType === prevType) {
+          streakLength++;
+          streakType = currentType;
+        } else {
+          break;
+        }
+      }
+
+      // Analyze alternations
+      let alternationCount = 0;
+      for (let i = 2; i < recentResults.length; i++) {
+        const type1 = BIG_NUMBERS.includes(recentResults[i]) ? "BIG" : "SMALL";
+        const type2 = BIG_NUMBERS.includes(recentResults[i - 1]) ? "BIG" : "SMALL";
+        const type3 = BIG_NUMBERS.includes(recentResults[i - 2]) ? "BIG" : "SMALL";
+        if (type1 !== type2 && type2 !== type3) alternationCount++;
+      }
+      const alternationRatio = alternationCount / (recentResults.length - 2) || 0;
+
+      // Decision logic
+      let prediction;
+      let confidence;
+      let decisionFactor = [];
+
+      if (streakLength >= 3) {
+        prediction = streakType === "BIG" ? "SMALL" : "BIG";
+        confidence = Math.min(85, 65 + streakLength * 5);
+        decisionFactor.push(`Long streak of ${streakType} (${streakLength} times)`);
+      } else if (alternationRatio > 0.5) {
+        const lastType = BIG_NUMBERS.includes(recentResults[0]) ? "BIG" : "SMALL";
+        prediction = lastType === "BIG" ? "SMALL" : "BIG";
+        confidence = Math.min(90, 70 + alternationRatio * 20);
+        decisionFactor.push(`High alternation ratio: ${alternationRatio.toFixed(2)}`);
+      } else {
+        prediction = probBig < 0.5 ? "BIG" : "SMALL";
+        confidence = Math.round(60 + Math.abs(probBig - 0.5) * 80);
+        decisionFactor.push(`Recent BIG ratio: ${probBig.toFixed(2)}`);
+      }
+
+      // Adjust confidence based on historical win rate
+      if (history.length >= 10) {
+        const recentPredictions = history.slice(0, 10).filter(h => h.resultStatus === "WIN");
+        const winRate = recentPredictions.length / 10;
+        confidence = Math.min(95, confidence + winRate * 10);
+        decisionFactor.push(`Recent win rate: ${winRate.toFixed(2)}`);
+      }
+
+      const betLevel = getBetLevel(confidence);
+      decisionFactor = decisionFactor.join(", ");
+
+      return { prediction, confidence, betLevel, decisionFactor };
+    };
+
+    const updateLastStatus = (actualNumber) => {
+      console.log("updateLastStatus called with actualNumber:", actualNumber, "lastPrediction:", lastPrediction);
+      if (!lastPrediction) return "Pending";
+      const actualType = BIG_NUMBERS.includes(actualNumber) ? "BIG" : "SMALL";
+      const status = lastPrediction === actualType ? "WIN" : "LOSS";
+      stats[status === "WIN" ? "wins" : "losses"]++;
+      localStorage.setItem('spyPredictorStats', JSON.stringify(stats));
+      console.log("Updated stats:", stats);
+      return status;
+    };
+
+    const saveHistory = () => {
+      historyData = historyData.slice(0, MAX_HISTORY);
+      try {
+        localStorage.setItem('spyPredictorHistory', JSON.stringify(historyData));
+        console.log("History saved:", historyData);
+      } catch (e) {
+        showToast("Warning: Failed to save history.", "warning");
+        console.error("History save error:", e);
+      }
+    };
+
+    const fetchGameResult = async (retryCount = 0) => {
+      if (isFetching) {
+        console.log("Fetch skipped: already fetching");
+        return null;
+      }
+      isFetching = true;
+      DOM.serverStatus.innerText = `Connecting (Attempt ${retryCount + 1})`;
+      DOM.currentPredictionDisplay.innerHTML = '<i class="fa fa-spinner spinner"></i>';
+      try {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            pageSize: 10,
+            pageNo: 1,
+            typeId: 1,
+            language: 0,
+            random: "4a0522c6ecd8410496260e686be2a57c",
+            signature: "334B5E70A0C9B8918B0B15E517E2069C",
+            timestamp: Math.floor(Date.now() / 1000)
+          })
+        });
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+        console.log("Raw API response:", data);
+        if (!data?.data?.list?.[0]?.issueNumber || !data.data.list[0].number) {
+          throw new Error("Invalid API response: missing issueNumber or number");
+        }
+        DOM.serverStatus.innerText = "Connected";
+        showToast("Fetched game data.", "success");
+        lastErrorPeriod = null; // Reset error period on successful fetch
+        return data.data.list[0];
+      } catch (e) {
+        console.error("API Error:", e.message, "Retry count:", retryCount);
+        DOM.serverStatus.innerText = `Retry ${retryCount + 1}/${API_MAX_RETRIES}`;
+        const currentPeriod = formatPeriodNumber();
+        if (lastErrorPeriod !== currentPeriod) {
+          lastErrorPeriod = currentPeriod;
+          if (retryCount < API_MAX_RETRIES) {
+            await new Promise(resolve => setTimeout(resolve, API_RETRY_INTERVAL));
+            return fetchGameResult(retryCount + 1);
+          } else {
+            showToast("API failed. Using simulated data.", "error");
+            console.warn("Using simulated data");
+            const simulatedResult = {
+              issueNumber: currentPeriod,
+              number: Math.floor(Math.random() * 10).toString()
+            };
+            console.log("Simulated Result:", simulatedResult);
+            DOM.serverStatus.innerText = "Simulated";
+            return simulatedResult;
+          }
+        } else {
+          console.log("Error already shown for period:", currentPeriod);
+          return null;
+        }
+      } finally {
+        isFetching = false;
+      }
+    };
+
+    const updatePrediction = async () => {
+      console.log("updatePrediction called at", new Date().toISOString());
+      const now = Date.now();
+      if (now - lastUpdateTime < UPDATE_INTERVAL) {
+        console.log("Skipped update: too soon since last update");
+        return;
+      }
+      lastUpdateTime = now;
+
+      const currentTime = new Date();
+      currentTime.setTime(currentTime.getTime() + (currentTime.getTimezoneOffset() + 5.5 * 60) * 60 * 1000);
+      const currentMinute = currentTime.getHours() * 60 + currentTime.getMinutes();
+      const result = await fetchGameResult();
+
+      if (!result) {
+        console.warn("No result fetched, updating UI with existing data");
+        updateHistory();
+        updateStats();
+        return;
+      }
+
+      console.log("Fetched result:", result);
+
+      if (lastFetchedPeriod !== result.issueNumber || lastPeriodUpdate !== currentMinute) {
+        console.log("Processing result for period:", result.issueNumber);
+        // Update previous period if pending
+        if (historyData.length > 0 && historyData[0].resultStatus === "Pending") {
+          const actualNumber = Number(result.number);
+          if (isNaN(actualNumber)) {
+            console.error("Invalid result number:", result.number);
+            if (lastErrorPeriod !== result.issueNumber) {
+              lastErrorPeriod = result.issueNumber;
+              showToast("Error: Invalid API result number.", "error");
+            }
+            updateHistory();
+            updateStats();
+            return;
+          }
+          const status = updateLastStatus(actualNumber);
+          const resultType = BIG_NUMBERS.includes(actualNumber) ? "BIG" : "SMALL";
+          const existingIndex = historyData.findIndex(item => item.period === historyData[0].period);
+          if (existingIndex !== -1) {
+            historyData[existingIndex].result = actualNumber.toString();
+            historyData[existingIndex].resultStatus = status;
+            historyData[existingIndex].calculation = `${actualNumber} (${resultType})`;
+          }
+          showToast(`Result: ${status} (${resultType})`, status === "WIN" ? "success" : "error");
+          saveHistory();
+          updateHistory();
+          updateStats();
+        }
+
+        // Generate new prediction
+        const aiDecision = spyPredict(historyData);
+        lastPrediction = aiDecision.prediction;
+        const nextPeriodFull = (BigInt(result.issueNumber) + 1n).toString();
+        const nextPeriod = nextPeriodFull.slice(-3);
+        const existingIndex = historyData.findIndex(item => item.period === nextPeriod);
+
+        DOM.currentPeriodDisplay.innerText = nextPeriodFull;
+        DOM.currentPredictionDisplay.innerText = `${aiDecision.prediction} (${aiDecision.betLevel})`;
+        DOM.confidenceDisplay.innerText = `${aiDecision.confidence}%`;
+        DOM.overallConfidenceDisplay.innerText = `${aiDecision.confidence}%`;
+
+        if (existingIndex === -1) {
+          historyData.unshift({
+            period: nextPeriod,
+            prediction: aiDecision.prediction,
+            betLevel: aiDecision.betLevel,
+            confidence: aiDecision.confidence,
+            result: "-",
+            resultStatus: "Pending",
+            calculation: "-",
+            decisionFactor: aiDecision.decisionFactor
+          });
+          saveHistory();
+        } else {
+          historyData[existingIndex] = {
+            period: nextPeriod,
+            prediction: aiDecision.prediction,
+            betLevel: aiDecision.betLevel,
+            confidence: aiDecision.confidence,
+            result: "-",
+            resultStatus: "Pending",
+            calculation: "-",
+            decisionFactor: aiDecision.decisionFactor
+          };
+          saveHistory();
+        }
+        updateHistory();
+        updateStats();
+        lastFetchedPeriod = result.issueNumber;
+        lastPeriodUpdate = currentMinute;
+      } else {
+        console.log("No period change, skipping redundant update");
+        updateHistory();
+        updateStats();
+      }
+    };
+
+    const updateTimer = () => {
+      DOM.timerDisplay.innerText = formatTimer();
+      requestAnimationFrame(updateTimer);
+    };
+
+    const updateStats = () => {
+      DOM.totalWins.innerText = stats.wins || 0;
+      DOM.totalLosses.innerText = stats.losses || 0;
+      console.log("Stats updated:", stats);
+    };
+
+    const updateHistory = () => {
+      if (!DOM.historyContainer) {
+        console.error("History container not found");
+        if (lastErrorPeriod !== formatPeriodNumber()) {
+          lastErrorPeriod = formatPeriodNumber();
+          showToast("Error: History container not found.", "error");
+        }
+        return;
+      }
+      console.log("Updating history with data:", historyData);
+      if (historyData.length === 0) {
+        DOM.historyContainer.innerHTML = '<div class="no-results">No results available yet.</div>';
+        return;
+      }
+      try {
+        DOM.historyContainer.innerHTML = historyData.map((item, index) => {
+          let borderColor = item.resultStatus === "WIN" ? "border-l-4 border-green-400" :
+                           item.resultStatus === "LOSS" ? "border-l-4 border-red-400" :
+                           "border-l-4 border-yellow-400";
+          let iconClass = item.resultStatus === "WIN" ? "fa-check-circle win-animation text-green-400" :
+                         item.resultStatus === "LOSS" ? "fa-xmark-circle loss-animation text-red-400" :
+                         "fa-spinner spinner text-yellow-400";
+          return `
+            <div class="history-item ripple grid grid-cols-3 gap-2 p-3 ${borderColor}" role="listitem">
+              <div class="col-span-2 space-y-1">
+                <div class="text-cyan-200 text-sm"><i class="fa fa-calendar mr-1 text-magenta-400"></i><strong>Period: ${item.period}</strong></div>
+                <div class="text-cyan-200 text-sm"><i class="fa fa-chart-bar mr-1 text-magenta-400"></i>Predict: ${item.prediction} (${item.betLevel})</div>
+                <div class="text-cyan-200 text-sm"><i class="fa fa-percentage mr-1 text-magenta-400"></i>Confidence: ${item.confidence}%</div>
+                <div class="text-cyan-200 text-sm"><i class="fa fa-calculator mr-1 text-magenta-400"></i>Result: ${item.calculation}</div>
+                <div class="text-cyan-200 text-sm"><i class="fa fa-trophy mr-1 text-magenta-400"></i>Status: ${item.resultStatus}</div>
+              </div>
+              <div class="flex items-center justify-end">
+                <i class="fa-solid ${iconClass} text-lg"></i>
+                <button onclick="deleteHistoryItem(${index})" class="ml-2 text-red-600 hover:text-red-800" title="Delete">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch (e) {
+        console.error("Error updating history:", e);
+        if (lastErrorPeriod !== formatPeriodNumber()) {
+          lastErrorPeriod = formatPeriodNumber();
+          showToast("Error updating history display.", "error");
+        }
+        DOM.historyContainer.innerHTML = '<div class="no-results">Error displaying history.</div>';
+      }
+    };
+
+    const refreshPrediction = async () => {
+      showToast("Refreshing prediction...", "info");
+      await updatePrediction();
+    };
+
+    const clearHistory = () => {
+      historyData = [];
+      stats.wins = 0;
+      stats.losses = 0;
+      saveHistory();
+      localStorage.setItem('spyPredictorStats', JSON.stringify(stats));
+      updateHistory();
+      updateStats();
+      showToast("History cleared.", "success");
+    };
+
+    const deleteHistoryItem = (index) => {
+      if (index < 0 || index >= historyData.length) {
+        showToast("Error: Invalid history item.", "error");
+        return;
+      }
+      const item = historyData[index];
+      if (item.resultStatus === "WIN") stats.wins--;
+      else if (item.resultStatus === "LOSS") stats.losses--;
+      historyData.splice(index, 1);
+      saveHistory();
+      localStorage.setItem('spyPredictorStats', JSON.stringify(stats));
+      updateHistory();
+      updateStats();
+      showToast("History item deleted.", "success");
+    };
+
+    // Initialize
+    const init = () => {
+      console.log("Initializing application at", new Date().toISOString());
+      // Clear history and stats on login
+      clearHistory();
+      updateTimer();
+      testInternetSpeed();
+      setInterval(testInternetSpeed, 10000); // Check every 10 seconds for speed watch
+      setInterval(updatePrediction, UPDATE_INTERVAL);
+      updateHistory();
+      updateStats();
+      updatePrediction();
+    };
+
+    init();
+  </script>
+</body>
+</html>
